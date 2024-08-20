@@ -54,7 +54,7 @@ tbl_summary(
 ```{r}
 #| label: tbl-one
 #| tbl-cap: "this is a great table"
-tbl_summary(
+tableone <- tbl_summary(
   nlsy,
   by = sex_cat,
   include = c(sex_cat, race_eth_cat, region_cat,
@@ -67,3 +67,65 @@ tbl_summary(
 -this should print on new line
 
 @tbl-one has a table
+
+```{r}
+mean_sleep <- mean(nlsy$sleep_wknd, na.rm=TRUE)
+print(mean_sleep)
+
+median_sleep <- median(nlsy$sleep_wknd, na.rm=TRUE)
+print(median_sleep)
+
+#| label: tbl-two
+#| tbl-cap: "this is a great table"
+tabletwo <- tbl_summary(
+  nlsy,
+  by = sex_cat,
+  include = c(sex_cat, race_eth_cat, region_cat,
+              eyesight_cat, glasses, age_bir, sleep_wknd))
+print(tabletwo)
+
+inline_text(tabletwo, variable="sleep_wknd", column = "Male")
+```
+
+The mean number of hours of sleep on weekends was `r mean_sleep`
+
+The mean number of hours of sleep on weekends was `mean(nlsy$sleep_wknd, na.rm=TRUE)`
+```{r}
+inline_text(tableone, variable="glasses", column = "Male")
+```
+
+```{r}
+square <- function(x) {
+	n <- length(x)
+	square_val <- (x)^2
+	return(square_val)
+}
+
+square(53)
+53^2
+
+power_of <- function(x, multiplier=3) {
+	square_val <- (x)^multiplier 
+	return(square_val)
+}
+
+power_of(x=5, multiplier=2)
+
+new_table_function <- function(model) {
+	tbl_regression(
+		model,
+		exponentiate = TRUE,
+		label = list(
+			sex_cat ~ "Sex",
+			eyesight_cat ~ "Eyesight"
+		)
+	)
+}
+
+logistic_model <- glm(glasses ~ eyesight_cat + sex_cat,
+											data = nlsy, family = binomial())
+
+new_table_function(logistic_model)
+
+```
+
