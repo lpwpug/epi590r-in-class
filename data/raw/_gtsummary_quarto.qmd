@@ -2,12 +2,12 @@
 title: "gtsummary in quarto"
 format: html
 theme: cosmo   # cosmo bootswatch theme
-#| echo: false
+execute:
+   echo: false
+   message: false
 ---
 
-```{r}
-
-#| echo: false
+```{r warning=FALSE, message=FALSE}
 
 library(tidyverse)
 library(gtsummary)
@@ -50,3 +50,20 @@ tbl_summary(
   ),
   missing_text = "Missing")
 ```
+
+```{r}
+#| label: tbl-one
+#| tbl-cap: "this is a great table"
+tbl_summary(
+  nlsy,
+  by = sex_cat,
+  include = c(sex_cat, race_eth_cat, region_cat,
+              eyesight_cat, glasses, age_bir))
+```
+
+**PRACTICE TEXT**
+*this is for Quarto practice writing text*
+
+-this should print on new line
+
+@tbl-one has a table
